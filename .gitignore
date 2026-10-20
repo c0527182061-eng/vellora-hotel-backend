@@ -1,0 +1,23 @@
+# תלויות
+node_modules/
+
+# קוד מקומפל וקוד שנוצר אוטומטית
+dist/
+src/generated/
+
+# סודות – לעולם לא ל־GitHub
+.env
+.env.*
+!.env.example
+
+# תמונות מקומיות ובדיקות
+uploads/
+.test-uploads/
+coverage/
+
+# מערכת ועורכים
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

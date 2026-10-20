@@ -1,0 +1,50 @@
+# Render Blueprint – הגדרות הפריסה של השרת
+# אפשר להשתמש בקובץ הזה (New > Blueprint) או להגדיר הכול ידנית (New > Web Service). ההוראות ב־START-HERE.md
+services:
+  - type: web
+    name: vellora-hotel-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    # --include=dev: כלי הבנייה (TypeScript, Prisma CLI) נדרשים גם כש־NODE_ENV=production
+    buildCommand: npm ci --include=dev && npm run build
+    # מריץ Migrations ואז מפעיל את השרת
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        sync: false # להדביק את מחרוזת ה־Session pooler של Supabase
+      - key: DATABASE_POOL_MAX
+        value: "5"
+      - key: JWT_SECRET
+        generateValue: true # Render יוצר סוד אקראי
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: CORS_ORIGINS
+        sync: false # כתובת אתר ה־React, למשל https://vellora.vercel.app
+      - key: HOTEL_TIMEZONE
+        value: Asia/Jerusalem
+      - key: STORAGE_PROVIDER
+        value: r2
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_PUBLIC_URL
+        sync: false
+      - key: INITIAL_ADMIN_EMAIL
+        sync: false
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false
+      - key: SEED_DEMO_ROOMS
+        value: "true"
