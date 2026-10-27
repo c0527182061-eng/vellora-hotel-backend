@@ -73,7 +73,8 @@ class CloudinaryStorage implements ImageStorage {
   }
 
   publicUrl(key: string) {
-    return cloudinary.url(key, { secure: true, fetch_format: 'auto', quality: 'auto' });
+    // JPG קבוע (ולא f_auto): פורמטים חדשים כמו AVIF נחסמים בחלק מסינוני האינטרנט
+    return cloudinary.url(key, { secure: true, fetch_format: 'jpg' });
   }
 }
 
